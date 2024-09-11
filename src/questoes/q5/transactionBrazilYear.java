@@ -27,7 +27,6 @@ public class transactionBrazilYear {
         hadoopMapReduceJob.setMapperClass(transactionBrazilYearMapper.class);
         hadoopMapReduceJob.setReducerClass(transactionBrazilYearReducer.class);
 
-
         // Onde são definidos os tipos de saída do Map
         hadoopMapReduceJob.setMapOutputKeyClass(Text.class);
         hadoopMapReduceJob.setMapOutputValueClass(averageWritable.class);

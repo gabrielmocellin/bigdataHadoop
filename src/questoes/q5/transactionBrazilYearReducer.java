@@ -7,7 +7,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class transactionBrazilYearReducer extends Reducer<Text, IntWritable, Text, LongWritable> {
+public class transactionBrazilYearReducer extends Reducer<Text, averageWritable, Text, LongWritable> {
     // Reduce function
     public void reduce(Text key, Iterable<averageWritable> values, Context con) throws IOException, InterruptedException {
         Long average = this.calculateAverage(values);
