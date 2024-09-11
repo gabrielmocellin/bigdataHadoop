@@ -45,6 +45,4 @@ public class transactionMaxMin {
         if (isCompletedSuccessfully) System.exit(successCode); // Encerra aplicativo com código sem erros
         System.exit(errorCode); // Encerra aplicativo com código de erro
     }
-
-
 }

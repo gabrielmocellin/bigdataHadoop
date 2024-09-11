@@ -11,17 +11,17 @@ public class transactionBrazilYearMapper extends Mapper<LongWritable, Text, Text
     // Função utilizada para o Mapeamento dos dados.
     public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException {
         String line = value.toString();
-        String columnHeadName = "country_or_area";
+        String columnHeadName = "country";
         Boolean isColumnHead = line.startsWith(columnHeadName);
         String[] columnsArray = line.split(";"); // Transformar/dividr os valores da linha atual em Array.
 
         String countryValue = columnsArray[0];
         Boolean isNotBrazilData = !countryValue.equals("Brazil");
 
-        if (isColumnHead || isNotBrazilData) return;
-
         String yearValue = columnsArray[1];
         Text outputKey = new Text(yearValue);
+
+        if (isColumnHead || isNotBrazilData) return;
 
         Long tradeValue = Long.parseLong(columnsArray[5]);
         Long amount = 1L;

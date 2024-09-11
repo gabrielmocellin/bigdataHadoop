@@ -10,6 +10,10 @@ public class averageWritable implements Writable {
     private Long total;
     private Long quantity;
 
+    public averageWritable () {
+
+    }
+
     public averageWritable (Long total, Long quantity) {
         this.total = total;
         this.quantity = quantity;
