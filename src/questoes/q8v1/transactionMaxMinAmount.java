@@ -1,4 +1,4 @@
-package questoes.q8;
+package questoes.q8v1;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.log4j.BasicConfigurator;
+import questoes.q7.averageWritable;
 
 public class transactionMaxMinAmount {
     public static void main(String[] args) throws Exception {
@@ -19,7 +20,7 @@ public class transactionMaxMinAmount {
         Path outputFilePath = new Path("output/q8_resultado");
 
         // Criação do objeto Job com base na configuração criada anteriormente.
-        Job hadoopMapReduceJob = Job.getInstance(hadoopConfig, "transactionMaxMin");
+        Job hadoopMapReduceJob = Job.getInstance(hadoopConfig, "transactionMaxMinAmount");
 
         // Onde são definidas as classes usadas para esse Job
         hadoopMapReduceJob.setJarByClass(transactionMaxMinAmount.class);
@@ -28,17 +29,18 @@ public class transactionMaxMinAmount {
 
 
         // Onde são definidos os tipos de saída do Map
-        hadoopMapReduceJob.setMapOutputKeyClass(Text.class);
-        hadoopMapReduceJob.setOutputKeyClass(Text.class);
-        hadoopMapReduceJob.setOutputValueClass(LongWritable.class);
+        hadoopMapReduceJob.setMapOutputKeyClass(keyPairWritable.class);
+        hadoopMapReduceJob.setMapOutputValueClass(LongWritable.class);
+        hadoopMapReduceJob.setOutputKeyClass(keyPairWritable.class);
+        hadoopMapReduceJob.setOutputValueClass(Text.class);
 
         // cadastro dos arquivos de entrada e saida
         FileInputFormat.addInputPath(hadoopMapReduceJob, inputFilePath);
         FileOutputFormat.setOutputPath(hadoopMapReduceJob, outputFilePath);
 
         // Inicia o Job configurado anteriormente e aguarda o final da execução.
-        //      Caso tenha sido executado com sucesso, será retornado "true"
-        //      Caso tenha tido um problema ao executar, será retornado "false"
+        //  Caso tenha sido executado com sucesso, será retornado "true"
+        //  Caso tenha tido um problema ao executar, será retornado "false"
         Boolean isCompletedSuccessfully = hadoopMapReduceJob.waitForCompletion(true);
         int successCode = 0;
         int errorCode   = 1;

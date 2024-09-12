@@ -10,20 +10,20 @@ public class transactionExportBrazilMapper extends Mapper<LongWritable, Text, Te
     // Função utilizada para o Mapeamento dos dados.
     public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException {
         String line = value.toString();
-        String columnHeadName = "country";
+        String columnHeadName = "country_or_area";
         Boolean isColumnHead = line.startsWith(columnHeadName);
         String[] columnsArray = line.split(";"); // Transformar/dividr os valores da linha atual em Array.
 
         String countryValue = columnsArray[0];
-        Boolean isNotBrazilData = !countryValue.equals("Brazil");
+        Boolean isBrazilData = countryValue.equals("Brazil");
 
         String flowValue = columnsArray[4];
-        Boolean isNotExportFlow = !flowValue.equals("Export");
+        Boolean isExportFlow = flowValue.equals("Export");
 
         String yearValue = columnsArray[1];
         Text outputKey = new Text(yearValue);
 
-        if (isColumnHead || isNotBrazilData && isNotExportFlow) return;
+        if (isColumnHead || !(isBrazilData && isExportFlow)) return;
 
         Long tradeValue = Long.parseLong(columnsArray[5]);
         Long amount = 1L;

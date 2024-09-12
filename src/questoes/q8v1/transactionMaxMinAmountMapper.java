@@ -1,29 +1,26 @@
-package questoes.q8;
+package questoes.q8v1;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class transactionMaxMinAmountMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
+public class transactionMaxMinAmountMapper extends Mapper<LongWritable, Text, keyPairWritable, LongWritable> {
     // Função utilizada para o Mapeamento dos dados.
     public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException {
         String line = value.toString();
-        String columnHeadName = "country_or_area";
+        String columnHeadName = "country";
         Boolean isColumnHead = line.startsWith(columnHeadName);
         String[] columnsArray = line.split(";"); // Transformar/dividr os valores da linha atual em Array.
 
+
+        if (isColumnHead) return;
+
         String countryValue = columnsArray[0];
-        Boolean isNotBrazilData = !countryValue.equals("Brazil");
-
-        if (isColumnHead || isNotBrazilData) return;
-
         String yearValue = columnsArray[1];
+        keyPairWritable keyPair = new keyPairWritable(yearValue, countryValue);
 
-        if (yearValue.equals("2016")) {
-            Text outputKey = new Text(columnsArray[0]);
-
-            con.write(outputKey, new LongWritable(Long.parseLong(columnsArray[5])));
-        }
+        LongWritable tradeValue = new LongWritable(Long.parseLong(columnsArray[5]));
+        con.write(keyPair, tradeValue);
     }
 }
